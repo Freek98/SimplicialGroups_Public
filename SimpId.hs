@@ -6,7 +6,8 @@ module SimpId where
  - and equality of compositions of such maps
  -
  - the data type of Generators model the face and degeneracy maps
- - the function normalformgenerators calculates the normal form of a list of such maps, read as composition
+ - the function normalformgenerators calculates the normal form of a list of such maps, 
+ - read as composition
 -}
 
 
@@ -37,10 +38,6 @@ shown n f = show( map (\x ->(x, f x)) [0..n])
 check :: Nat -> (Nat -> Nat) -> (Nat -> Nat) -> Bool
 check n f g = (shown n f) ==  (shown n g)
 
-
--- it can be shown that every increasing function has a normal form consisting of 
--- first taking degeneracy maps in decreasing order, then face maps in increasing order
-
 -- We introduce abstract notions of degeneracy and face maps, which are not functions. 
 -- We call these Generators as they generate all maps in the simplex category. 
 data Generators = D Nat | S Nat deriving (Eq, Show)
@@ -68,7 +65,7 @@ helpnormalformer input expectedoutput gs n f
 -- We assume that f is an increasing function and that 
 -- on [0.. input -1], the function f equals the composition of the generators gs
 -- this function takes that assumption and add generators untill this also holds on [0..input]
--- untill we reach input > n 
+-- untill we reach input > n.
 --
 -- First we check if we have reached n already
   | input > n = gs
@@ -77,12 +74,14 @@ helpnormalformer input expectedoutput gs n f
   | f input == expectedoutput = helpnormalformer (input + 1 ) (expectedoutput + 1) gs n f 
 -- If f gives a bigger output, it skips over the epected output.
 -- skipping over a number corresponds to D 
-  | f input >  expectedoutput = helpnormalformer input (expectedoutput + 1) ((D expectedoutput):gs) n f
+  | f input >  expectedoutput = helpnormalformer input (expectedoutput + 1) 
+                                                ((D expectedoutput):gs) n f
 -- If f gives a lower output, it can only be equal to expectedoutput -1
 -- Because by assumption f (input - 1) = expectedoutput -1 and f is increasing
 -- If this is the case, we double on expectedoutput-1, 
 -- doubling over a number corresponds to S
-  | f input == expectedoutput - 1 = helpnormalformer (input+1) (expectedoutput) (gs ++ [S (input - 1) ]) n f 
+  | f input == expectedoutput - 1 = helpnormalformer (input+1) (expectedoutput) 
+                                        (gs ++ [S (input - 1) ]) n f 
 -- If this does not happen, we do not have an increasing function. 
   | otherwise = error "I don't think this function is increasing."
 

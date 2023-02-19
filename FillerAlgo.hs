@@ -11,13 +11,16 @@ import SimpFreeGroup
  -}
 
 
---   We represent such horns y by a Nat i to indicate which face is missing and then a list of n-1 group elements
---   called $ y \circ d_0 , \cdots, \hat{ y \circ d_i} \cdots y\circ d_n$. (the hat means it is ommitted)
+--   We represent such horns y by a Nat i to indicate which face is missing and then a 
+--   list of n-1 group elements called 
+--   $ y \circ d_0 , \cdots, \hat{ y \circ d_i} \cdots y\circ d_n$. 
+--   (the hat means this index is ommitted)
 
 type Horn = (Nat, [SimpGroupElt])
 
 toHorn :: String -> Int -> Int -> Horn
--- toHorn y n i is how we represent the sieve on an n-simplex with the i'th face missing, and name y.
+-- toHorn y n i is how we represent the sieve on an n-simplex 
+-- with the i'th face missing, and name y.
 toHorn y n i = (i , ys) where 
                  ys = [ [N (y, [D k])] |k <- ([0..i-1] ++ [i+1..n])]
 
@@ -40,8 +43,8 @@ suc i k | k >  i + 1 = k-1
       | k == i + 1 = 0
       | k <i = k+1
 
--- Furthermore because we make a distinction to what happens before i and after i we want the ' notation
--- which in haskell we call prime
+-- Furthermore because we make a distinction to what happens before i and after i 
+-- we want to use the ' notation which in haskell we call prime
 
 prime :: Nat -> Nat -> Nat
 prime i k | k < i = k
@@ -51,7 +54,8 @@ prime i k | k < i = k
 -- The k'th face of a horn can now be called as follows:
 takeFace :: Horn -> Nat -> SimpGroupElt
 takeFace (i, ys) k = ys !! prime i k
--- Note that in our abuse of notation for a horn we write y \circ d_k \equiv ("y", [D k]) == takeFace y k here. 
+-- Note that in our abuse of notation for a horn we write 
+-- y \circ d_k \equiv ("y", [D k]) == takeFace y k here. 
 
 takeGap :: Horn -> Nat
 takeGap (i,_) = i

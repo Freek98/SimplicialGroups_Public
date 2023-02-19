@@ -20,7 +20,8 @@ instance Functor Element where
 
 
 -- Now a free group on such atoms has as elements list of Inverted or Non-inverted atoms
--- where we can normalize such lists by letting subsequent Inverted and Non-inverted elements cancel each other out. 
+-- where we can normalize such lists by 
+-- letting subsequent Inverted and Non-inverted elements cancel each other out. 
 normalizestep :: (Eq a) => [Element a] -> [Element a]
 normalizestep ( ( N x ) : (I y) : xs ) | x == y = normalizestep xs
                                    | otherwise = ( N x ) : (normalizestep ( (I y) : xs))
@@ -56,8 +57,9 @@ compose els gs = map (fmap (\(x,hs) -> (x,hs ++ gs ))) els
 
 multiply :: SimpGroupElt -> SimpGroupElt -> SimpGroupElt
 multiply = (++) 
--- at this moment, this allows us to multiply two elements from different groups because we have no level specified
--- for example f and f\circ d1 can be multiplied in the code, and maps can be multiplied, 
+-- At this moment, this allows us to multiply two elements from different groups 
+-- because we have no level specified.
+-- For example f and f\circ d1 can be multiplied in the code, 
 -- but these are not elements of the same group. 
 -- Again we can get away with it for the limited application. 
 

@@ -85,8 +85,6 @@ pullBackHorn ys pm n i j i' j' = (i', pm, f, zs) where
   z :: Nat -> SimpGroupElt
   z k | (k == i' || k == i'+1 ) = error "z should not be called on i', i'+1"
       | (k == j' || k == j'+1  ) = fily 
-      -- guess based on confusion about which faces we add: 
-      -- we changed j to j'. 
       | otherwise =  [ N (ys, [S j' , D k])]
   zs = [ z k | k <- [0.. i'-1] ++ [i'+2 .. n+2]] 
   -- we use n+2 as the literature has n+1 horns, 
